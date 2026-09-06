@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
 
-sudo pacman -S install keyd -y && \
-mv "/etc/keyd/default.conf"
+if pacman -S keyd  ; then
+  echo "----- adding new bindings"
+  cp "./default.conf" "/etc/keyd/default.conf"  
+  echo "----- enabling new bindings"
+  systemctl enable --now keyd
+fi
