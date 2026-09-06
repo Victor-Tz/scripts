@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 config="
 [ids]
@@ -13,13 +14,12 @@ h = left
 j = down
 k = up
 l = right"
-
 fileName="default.conf"
 path="/etc/keyd/"
 
-if yes Y | pacman -S keyd  ; then
+if  cat <<< "Y" | pacman -S keyd ; then
   echo "----- adding new bindings $path"
-  echo "$config" > $path$fileName
+  echo "$config" > "$path$fileName" 
   echo "----- enabling new bindings $path$fileName"
   systemctl enable --now keyd
 fi
