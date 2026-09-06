@@ -1,8 +1,25 @@
 #!/usr/bin/env bash
 
-if pacman -S keyd  ; then
-  echo "----- adding new bindings"
-  cp "./default.conf" "/etc/keyd/default.conf"  
-  echo "----- enabling new bindings"
+config="
+[ids]
+*
+
+[main]
+# Tap for Escape, hold for custom 'nav' layer
+capslock = overload(nav, esc)
+
+[nav]
+h = left
+j = down
+k = up
+l = right"
+
+fileName="default.conf"
+path="/etc/keyd/"
+
+if yes Y | pacman -S keyd  ; then
+  echo "----- adding new bindings $path"
+  echo "$config" > $path$fileName
+  echo "----- enabling new bindings $path$fileName"
   systemctl enable --now keyd
 fi
